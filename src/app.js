@@ -24,12 +24,20 @@ app.use(bodyParser.json());
 // app.use(cookieParser())
 
 
-//Routes Import 
+//Routes Import
 // import userRouter from "./routes/user.routes.js"
 
 
 //Routes Declaration
 // app.use("/api/v1/users", userRouter)
+app.get('/health', (req, res) => {
+    const dbState = mongoose.connection.readyState;
+    const dbHealth = dbState === 1 ? 'up' : 'down'; // 1 means connected
+
+    res.status(200).json({
+        status: 'OK',
+    });
+});
 app.use('/api/groups', groupRoutes);
 app.use('/api/groups', messageRoutes);
 app.use(errorHandler);
